@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="余涵">
+
+
+    <meta name="subtitle" content="余涵的个人博客">
+
+
+
+
+<title>对于this的理解 | i miss you (〃&#39;▽&#39;〃)</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">余涵</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">余涵</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">对于this的理解</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">余涵</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 24, 2020&nbsp;&nbsp;18:10:52</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>title: 对于this的理解</p>
+<h1 id="对于this的理解"><a href="#对于this的理解" class="headerlink" title="对于this的理解"></a>对于this的理解</h1><p><code>this</code> 关键字是 <em>JavaScript</em> 中最复杂的机制之一。它是一个很特别的关键字，被自动定义在所有函数的作用域中。但是即使是非常有经验的 <em>JavaScript</em> 开发者也很难说清它到底指向什么。对于如果对于有经验的<em>JavaScript</em> 开发者来说 <code>this</code> 都是一种非常复杂的机制，那它到底有用在哪里呢？</p>
+<p><a name="r1g59"></a></p>
+<h3 id="误解"><a href="#误解" class="headerlink" title="误解"></a>误解</h3><p>我们之后会解释 <code>this</code> 到底是如何工作的，但是首先需要消除一些关于 <code>this</code> 的错误认识。<br><a name="HnLyj"></a></p>
+<h4 id="指向自身"><a href="#指向自身" class="headerlink" title="指向自身"></a>指向自身</h4><p>人们很容易把 <code>this</code> 理解成指向函数本身，这个推断在英语的语法角度上来说是说的通的。但是在 <em>JavaScript</em> 并不绝对，那么我们来分析一下，让大家看到<code>this</code>并不是我们所想的那样指向函数本身。</p>
+<p>我们想要记录一下函数 <code>foo()</code>被调用的次数，思考一下下面的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log( <span class="string">"foo: "</span> + num ); </span><br><span class="line">  <span class="comment">// 记录 foo 被调用的次数 </span></span><br><span class="line">  <span class="keyword">this</span>.count++;</span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">foo.count = <span class="number">0</span>; </span><br><span class="line"><span class="keyword">var</span> i; </span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++) &#123; </span><br><span class="line">  <span class="keyword">if</span> (i &gt; <span class="number">5</span>) &#123; </span><br><span class="line">    foo( i );</span><br><span class="line">  &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// foo: 6 </span></span><br><span class="line"><span class="comment">// foo: 7 </span></span><br><span class="line"><span class="comment">// foo: 8 </span></span><br><span class="line"><span class="comment">// foo: 9 </span></span><br><span class="line"><span class="comment">// foo 被调用了多少次？</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log( foo.count ); <span class="comment">// 0 -- WTF?</span></span><br></pre></td></tr></table></figure>
+
+<p><code>console.log</code> 语句产生了4条输出，证明 <code>foo</code> 函数的确被调用了4次，但是 <code>foo.count</code> 仍然是0.<br />显然，从字面上理解<code>this</code>是不对的。<br><a name="nGIHT"></a></p>
+<h4 id="指向作用域"><a href="#指向作用域" class="headerlink" title="指向作用域"></a>指向作用域</h4><p>第二种常见的误解就是 <code>this</code> 指向函数的作用域。这个问题有点复杂，因为在某种情况下它是正确的，但是在其他情况下是错误的。但是需要明确的是，<code>this</code> 在任何情况下都不指向函数的词法作用域。</p>
+<p>思考一下下面代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">2</span>; <span class="keyword">this</span>.bar(); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">  <span class="built_in">console</span>.log( <span class="keyword">this</span>.a ); </span><br><span class="line">&#125; </span><br><span class="line">foo(); <span class="comment">// ReferenceError: a is not defined</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码的error不止一个，但是这段代码非常完美地展示了<code>this</code>多么容易误导人。</p>
+<p>首先，这段代码试图通过<code>this.bar()</code>来引用<code>bar()</code>函数。这是绝对不可能成功的。调用<code>bar()</code>最自然的方法是省略前面的<code>this</code>，直接使用词法引用标识符。此外，这段代码还试图使用 <code>this</code> 联通 <code>foo()</code> 和 <code>bar()</code> 的词法作用域，从而让 <code>bar()</code> 可以访问 <code>foo()</code> 作用域里的变量 a。这是不可能实现的，你不能使用 <code>this</code> 来引用一个词法作用域内部的东西。每当想要把<code>this</code>和词法作用域的查找混合使用时，一定要提醒自己，这是无法实现的！</p>
+<p><a name="ZjOGD"></a></p>
+<h3 id="this到底是什么"><a href="#this到底是什么" class="headerlink" title="this到底是什么"></a>this到底是什么</h3><p>当排除了一些错误的理解之后，现在我们来看看<code>this</code>到底是什么样的机制。</p>
+<p>当一个函数被调用时，会创建一个活动记录（也称执行上下文），这个记录会包含函数在哪里调用、函数的调用方法、传入的参数等信息。而this就是记录其中的一个属性，并且会在函数执行的过程中用到。</p>
+<p>所以！<br /><strong><br /></strong>「<code>this</code> 是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。」<strong><br /></strong><br><a name="Cw5ZM"></a></p>
+<h2 id="调用位置"><a href="#调用位置" class="headerlink" title="调用位置"></a>调用位置</h2><p>在解释<code>this</code>的绑定过程之前，首先就要理解调用位置：调用位置就是函数在代码中被调用的位置（而不是声明的位置）。</p>
+<p>思考一下下面代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">  	<span class="comment">// 当前调用栈是：baz </span></span><br><span class="line"> 		<span class="comment">// 因此，当前调用位置是全局作用域 </span></span><br><span class="line"> </span><br><span class="line">  <span class="built_in">console</span>.log( <span class="string">"baz"</span> ); </span><br><span class="line">  bar(); <span class="comment">// &lt;-- bar 的调用位置 </span></span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  	<span class="comment">// 当前调用栈是 baz -&gt; bar </span></span><br><span class="line">  	<span class="comment">// 因此，当前调用位置在 baz 中 </span></span><br><span class="line">  </span><br><span class="line">  <span class="built_in">console</span>.log( <span class="string">"bar"</span> ); </span><br><span class="line">  foo(); <span class="comment">// &lt;-- foo 的调用位置 </span></span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  	<span class="comment">// 当前调用栈是 baz -&gt; bar -&gt; foo </span></span><br><span class="line">  	<span class="comment">// 因此，当前调用位置在 bar 中 </span></span><br><span class="line">  </span><br><span class="line">  <span class="built_in">console</span>.log( <span class="string">"foo"</span> ); </span><br><span class="line">&#125; </span><br><span class="line">baz(); <span class="comment">// &lt;-- baz 的调用位置</span></span><br></pre></td></tr></table></figure>
+
+<p><br />函数<code>baz</code>父级没有函数了，因此它的调用位置是在全局作用域，这个很好理解。而函数<code>bar</code>是在<code>baz</code>函数中执行（调用位置在<code>baz</code>函数中），因此<br />对于<code>function bar()</code> 它的调用栈就是<code>baz</code>中的<code>bar</code>，而调用位置自然就是在函数<code>baz</code>中。<br />而函数 <code>foo()</code> 是在函数 <code>bar()</code> 中执行，那么同上 :)<br />最后的函数 <code>baz()</code> 调用位置是在全局作用域中。<br /><br><br /><strong>我们要清楚的理解如何在调用栈中分析出真正的调用位置，因为它决定了<code>this</code>的绑定</strong>。</p>
+<p><a name="VcELI"></a></p>
+<h2 id="this的四种绑定规则"><a href="#this的四种绑定规则" class="headerlink" title="this的四种绑定规则"></a>this的四种绑定规则</h2><ul>
+<li><strong>默认绑定</strong></li>
+<li><strong>隐式绑定</strong></li>
+<li><strong>显式绑定</strong></li>
+<li><strong>new绑定</strong></li>
+</ul>
+<p><a name="MolNe"></a></p>
+<h3 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h3><p>首先要说的的是最常用的函数调用类型：独立函数调用。可以把这条规则看作是无法应用其他规则时的默认规则。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.a) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;  <span class="comment">//  变量声明在全局作用域中</span></span><br><span class="line"></span><br><span class="line">foo();<span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>var</code>声明的变量a，被绑定在了全局作用域中，当函数<code>foo()</code>调用时，引用了默认绑定规则，<code>this</code>就指向了全局作用域声明的变量a上。</p>
+<p><a name="UQV3E"></a></p>
+<h3 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h3><p>这个规则是发生在调用位置是否有上下文对象，或者说是否被某个对象拥有或包含。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bar = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  foo,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> baz = &#123;</span><br><span class="line">  a: <span class="number">2</span>,</span><br><span class="line">  foo,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.foo();   <span class="comment">// 输出 1</span></span><br><span class="line">baz.foo();   <span class="comment">// 输出 2</span></span><br></pre></td></tr></table></figure>
+
+<p>当函数调用的时候，调用位置有上下文对象的时候，<code>this</code> 会绑定到这个上下文对象中，因此<br /><code>bar.foo()</code>被调用时，<code>this</code>绑定到了bar中的变量a，<br /><code>baz.foo()</code>被调用时，<code>this</code>绑定到了baz中的变量a。</p>
+<p><a name="szjuG"></a></p>
+<h3 id="显式绑定"><a href="#显式绑定" class="headerlink" title="显式绑定"></a>显式绑定</h3><p>这种就是使用 <code>function.prototype</code> 中的三个方法 <code>call()</code>、<code>apple()</code>、<code>bind()</code>。<br /><code>call()</code> 方法使用一个指定的 <code>this</code> 值和单独给出的一个或多个参数来调用一个函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>.<span class="title">call</span>(<span class="params">this, arg1, arg2, ...</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p><code>apply()</code> 方法调用一个具有给定<code>this</code>值的函数，以及作为一个数组（或<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Indexed_collections#Working_with_array-like_objects" target="_blank" rel="noopener">类似数组对象</a>）提供的参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>.<span class="title">apply</span>(<span class="params">this, [argsArray]</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p><code>call()</code>方法的作用和 <code>apply()</code> 方法类似，区别就是<code>call()</code>方法接受的是参数列表，而<code>apply()</code>方法接受的是一个参数数组。</p>
+<p><code>bind()</code> 方法创建一个新的函数，在 <code>bind()</code> 被调用时，这个新函数的 <code>this</code> 被指定为 <code>bind()</code> 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>.<span class="title">bind</span>(<span class="params">this[, arg1[, arg2[, ...]]]</span>)</span></span><br></pre></td></tr></table></figure>
+
+
+<p><a name="obRJB"></a></p>
+<h3 id="new绑定"><a href="#new绑定" class="headerlink" title="new绑定"></a>new绑定</h3><p>最后一种，使用<code>new</code>操作符产生对<code>this</code>的绑定。在<em>JavaScript</em>中，所有的函数都可以被<code>new</code>调用，这个时候这个函数被称之为 “构造函数”，更确切的理解应该是对于函数的“构造调用”。<br />使用<code>new</code>来调用函数时，会执行下面操作：</p>
+<ul>
+<li>创建一个全新的对象。</li>
+<li>这个新对象会被执行 [[Prototype]] 连接。</li>
+<li>这个新对象会绑定到函数调用的 <code>this</code>。</li>
+<li>如果函数没有返回其他对象，那么 <code>new</code> 表达式中的函数调用会自动返回这个新对象。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.a = a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> bar = <span class="keyword">new</span> foo(<span class="number">2</span>); </span><br><span class="line"><span class="built_in">console</span>.log( bar.a ); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>new</code>来调用 <code>foo(..)</code> 时，我们会构造一个新对象并把它绑定到 <code>foo(..)</code> 调用中的 <code>this</code> 上。new 是最后一种可以影响函数调用时 <code>this</code> 绑定行为的方法，我们称之为 new 绑定。</p>
+<p><a name="tQ3nq"></a></p>
+<h2 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h2><p>现在我们已经说了4种<code>this</code>绑定的规则，但是这都是只存在一种规则下的举例。那如果一个调用位置出现了多种规则怎么办？优先级是如何？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj1 = &#123;</span><br><span class="line">    a: <span class="number">2</span>,</span><br><span class="line">    foo,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj1.foo();     <span class="comment">// 输出 2</span></span><br><span class="line">obj1.foo.call(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;);      <span class="comment">// 输出 1</span></span><br></pre></td></tr></table></figure>
+
+<p>这可以看到 显式绑定 &gt; 隐式绑定</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a = a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj1 = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bar = foo.bind(obj1);</span><br><span class="line">bar(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">console</span>.log(obj1); <span class="comment">// 输出 &#123;a:2&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj2 = <span class="keyword">new</span> bar(<span class="number">3</span>);</span><br><span class="line"><span class="built_in">console</span>.log(obj1); <span class="comment">// 输出 &#123;a:2&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(obj2); <span class="comment">// 输出 foo &#123; a: 3 &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这说明了 new绑定 &gt; 显式绑定   而对于默认绑定，无疑是最低的了。<br />因此<br /><strong>new 绑定 &gt; 显式绑定 &gt; 隐式绑定 &gt; 默认绑定</strong></p>
+<p><a name="P4Bdn"></a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><code>this</code> 并不是在编写的时候绑定的，而是在运行时绑定的。它的上下文取决于函数调用时的各种条件。</li>
+<li><code>this</code> 的绑定和函数声明的位置没有任何关系，只取决于函数的调用方式。</li>
+<li>当一个函数被调用时，会创建一个「执行上下文」，这个上下文会包含函数在哪里被调用（调用栈）、函数的调用方式、传入的参数等信息。<code>this</code> 就是这个记录的一个属性，会在函数执行的过程中用到。</li>
+</ul>
+<blockquote>
+<p> 参考:<br>《你不知道的JavaScript》<em>Kyle Simpson</em></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>余涵</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://szyh.top/2020/03/24/%E5%AF%B9%E4%BA%8Ethis%E7%9A%84%E7%90%86%E8%A7%A3/">http://szyh.top/2020/03/24/%E5%AF%B9%E4%BA%8Ethis%E7%9A%84%E7%90%86%E8%A7%A3/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 余涵 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/FunnyTitle.js"></script>
+</body>
+</html>
